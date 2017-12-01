@@ -1,4 +1,5 @@
 export declare class AiroundProtocolBuilder {
+    CONFIG_EID: number;
     SGU(user: {
         birthdate: string;
         gender: string;

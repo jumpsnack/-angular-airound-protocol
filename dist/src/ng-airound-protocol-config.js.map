@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../src/ng-airound-protocol-config.ts"],"names":[],"mappings":"AAAA,MAAM,CAAC,IAAM,WAAW,GAAG;IAC1B,GAAG,EAAE,IAAI;CACT,CAAA;AAED,MAAM,CAAC,IAAI,MAAM,GAAG;IACnB,GAAG,EAAE,CAAC,CAAC;CACP,CAAA","file":"ng-airound-protocol-config.js","sourceRoot":"","sourcesContent":["export const PROTO_TYPES = {\n\tSGU: 0x01\n}\n\nexport let CONFIG = {\n\teid: -1\n}"]}

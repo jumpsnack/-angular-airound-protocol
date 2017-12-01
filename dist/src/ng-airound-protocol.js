@@ -1,8 +1,19 @@
 import { Injectable } from '@angular/core';
 import { isUndefined } from "util";
+import { PROTO_TYPES, CONFIG } from "./ng-airound-protocol-config";
 var AiroundProtocolBuilder = (function () {
     function AiroundProtocolBuilder() {
     }
+    Object.defineProperty(AiroundProtocolBuilder.prototype, "CONFIG_EID", {
+        get: function () {
+            return CONFIG.eid;
+        },
+        set: function (eid) {
+            CONFIG.eid = eid;
+        },
+        enumerable: true,
+        configurable: true
+    });
     AiroundProtocolBuilder.prototype.SGU = function (user) {
         return new PROTO_FACTORY.PROTO_SGU(user.birthdate, user.gender, user.id, user.password, user.firstname, user.lastname).generate();
     };
@@ -34,7 +45,7 @@ var PROTO_FACTORY;
             this.body.tlv = new PROTO_BODY.SGU_TLV(id, password, firstname, lastname);
         }
         PROTO_SGU.prototype.generate = function () {
-            var header = new PROTO_HEADER({ type: 1, length: this.body.value.length, eid: 302 }).header;
+            var header = new PROTO_HEADER({ type: PROTO_TYPES.SGU, length: this.body.value.length, eid: CONFIG.eid }).header;
             var body = this.body.value;
             return '{' + header + ', ' + body + '}';
         };
