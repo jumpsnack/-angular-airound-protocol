@@ -128,7 +128,7 @@ var PROTO_FACTORY;
                     return '"body": {' +
                         '"birthdate": ' + '"' + this.birthdate + '"' +
                         ', "gender": ' + '"' + this.gender + '"' +
-                        ', "tlv": ' + '' + parseInt(this.tlv.value) + ''
+                        ', "tlv": ' + '"' + (this.tlv.value) + '"'
                         + '}';
                 },
                 enumerable: true,
