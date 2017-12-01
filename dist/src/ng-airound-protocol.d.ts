@@ -1,5 +1,5 @@
 export declare class AiroundProtocolBuilder {
-    static SGU(user: {
+    SGU(user: {
         birthdate: string;
         gender: string;
         id: string;

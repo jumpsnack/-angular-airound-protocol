@@ -3,7 +3,7 @@ import { isUndefined } from "util";
 
 @Injectable()
 export class AiroundProtocolBuilder {    
-      static SGU(user: {birthdate: string, gender: string, id: string, password: string, firstname: string, lastname: string}): string {
+      SGU(user: {birthdate: string, gender: string, id: string, password: string, firstname: string, lastname: string}): string {
         return new PROTO_FACTORY.PROTO_SGU(user.birthdate, user.gender, user.id, user.password, user.firstname, user.lastname).generate()
       }
 }

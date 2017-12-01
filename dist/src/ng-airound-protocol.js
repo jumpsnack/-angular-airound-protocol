@@ -3,7 +3,7 @@ import { isUndefined } from "util";
 export var AiroundProtocolBuilder = (function () {
     function AiroundProtocolBuilder() {
     }
-    AiroundProtocolBuilder.SGU = function (user) {
+    AiroundProtocolBuilder.prototype.SGU = function (user) {
         return new PROTO_FACTORY.PROTO_SGU(user.birthdate, user.gender, user.id, user.password, user.firstname, user.lastname).generate();
     };
     AiroundProtocolBuilder.decorators = [
