@@ -232,7 +232,7 @@ var PROTO_FACTORY;
                     if (isUndefined(nrofTriesDiffCodeTrans) || nrofTriesDiffCodeTrans < -1)
                         throw 'Invalid input';
                     if (nrofTriesDiffCodeTrans >= Math.pow(2, this.MAX_SIZE_NR_OF_TRIES_DIFF_CODE_TRANS))
-                        throw 'Out of range';
+                        throw '[nrofTriesDiffCodeTrans]: ' + nrofTriesDiffCodeTrans + ' => Out of range (<' + Math.pow(2, this.MAX_SIZE_NR_OF_TRIES_DIFF_CODE_TRANS) + ')';
                     this._nrofTriesDiffCodeTrans_8 = parseInt(nrofTriesDiffCodeTrans.toString(16));
                 },
                 enumerable: true,
@@ -247,8 +247,8 @@ var PROTO_FACTORY;
                 set: function (verifyCode) {
                     if (isUndefined(verifyCode))
                         throw 'Invalid input';
-                    if (verifyCode.length * 8 >= this.MAX_SIZE_VERIFY_CODE)
-                        throw 'Out of range';
+                    if (verifyCode.length * 8 >= Math.pow(2, this.MAX_SIZE_VERIFY_CODE))
+                        throw '[verifyCode]: ' + verifyCode.length * 8 + ' => Out of range (<' + Math.pow(2, this.MAX_SIZE_VERIFY_CODE) + ')';
                     this._verifyCode_32 = verifyCode;
                 },
                 enumerable: true,
@@ -263,8 +263,8 @@ var PROTO_FACTORY;
                 set: function (authCode) {
                     if (isUndefined(authCode))
                         throw 'Invalid input';
-                    if (authCode.length * 8 >= this.MAX_SIZE_AUTH_CODE)
-                        throw 'Out of range';
+                    if (authCode.length * 8 >= Math.pow(2, this.MAX_SIZE_AUTH_CODE))
+                        throw '[authCode]: ' + authCode.length * 8 + ' => Out of range (<' + Math.pow(2, this.MAX_SIZE_AUTH_CODE) + ')';
                     this._authCode_160 = authCode;
                 },
                 enumerable: true,
