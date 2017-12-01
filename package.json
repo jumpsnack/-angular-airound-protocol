@@ -1,0 +1,29 @@
+{
+  "name": "@angular/airound-protocol",
+  "version": "1.0.0",
+  "description": "protocol builder for airound project at Qualcomm Institute",
+  "main": "dist/bundles/ng-airound-protocol.umd.js",
+  "scripts": {
+    "cleanup": "rimraf dist/bundles dist/src dist/index.d.ts dist/index.js dist/index.js.map dist/LICENCE dist/README.md",
+    "bundling": "rollup -c",
+    "minify": "uglifyjs dist/bundles/ng-airound-protocol.umd.js --screw-ie8 --compress --mangle --comments --output dist/bundles/ng-airound-protocol.umd.js",
+    "build": "npm run cleanup && ngc && npm run bundling && npm run minify"
+  },
+  "author": "jumpsnack",
+  "license": "MIT",
+  "dependencies": {
+    "@angular/core": "^2.4.0",
+    "@types/node": "^8.0.53",
+    "reflect-metadata": "^0.1.8",
+    "rxjs": "^5.0.1",
+    "zone.js": "^0.7.2"
+  },
+  "devDependencies": {
+    "@angular/compiler": "^2.4.0",
+    "@angular/compiler-cli": "^2.4.0",
+    "rimraf": "^2.5.4",
+    "rollup": "^0.37.0",
+    "typescript": "~2.0.10",
+    "uglify-js": "^2.7.5"
+  }
+}
