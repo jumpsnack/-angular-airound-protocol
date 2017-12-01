@@ -11,6 +11,11 @@
   },
   "author": "jumpsnack",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jumpsnack/angular-airound-protocol.git"
+  },
+  "homepage": "https://jumpsnack.github.io",
   "dependencies": {
     "@angular/core": "^2.4.0",
     "@types/node": "^8.0.53",
