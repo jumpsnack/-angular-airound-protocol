@@ -2,22 +2,6 @@ import {Inject, Injectable} from '@angular/core';
 import { isUndefined } from "util";
 import { PROTO_TYPES, CONFIG } from "./ng-airound-protocol-config";
 
-@Injectable()
-export class AiroundProtocolBuilder {
-
-	public set CONFIG_EID(eid: number){
-		CONFIG.eid = eid;
-	}
-
-	public get CONFIG_EID(){
-		return CONFIG.eid;
-	}
-
-	public SGU(user: {birthdate: string, gender: string, id: string, password: string, firstname: string, lastname: string}): string {
-		return new PROTO_FACTORY.PROTO_SGU(user.birthdate, user.gender, user.id, user.password, user.firstname, user.lastname).generate()
-	}
-}
-
 declare global {
 	interface String {
 		hexBitsLength(): string;
@@ -38,26 +22,95 @@ String.prototype.toHex = function (this: string){
 	return result;
 };
 
+@Injectable()
+export class AiroundProtocolBuilder {
+	public set CONFIG_EID(eid: number){
+		CONFIG.eid = eid;
+	}
+
+	public get CONFIG_EID(){
+		return CONFIG.eid;
+	}
+
+	// public SGU(user: {birthdate_32: string, gender_8: string, email_tlv: string, password_tlv: string, firstname_tlv: string, lastname_tlv: string}): string {
+	// 	return new PROTO_FACTORY.PROTO_SGU(user.birthdate_32, user.gender_8, user.email_tlv, user.password_tlv, user.firstname_tlv, user.lastname_tlv).generate()
+	// }
+
+	public SGU(params: PROTO_PARAMS.SGU){
+		return new PROTO_FACTORY.PROTO_SGU(params).generate();
+	}
+
+	public UVC(params: PROTO_PARAMS.UVC){
+		return new PROTO_FACTORY.PROTO_UVC(params).generate();
+	}
+}
+
+
+export namespace PROTO_PARAMS {
+	export interface HEADER {
+		_type_8: number;
+		_length_16: number;
+		_eid_24: number;
+	}
+
+	export interface SGU {
+		_birthdate_32: string;
+		_gender_8: string;
+		_email_tlv: string;
+		_password_tlv: string;
+		_firstname_tlv: string;
+		_lastname_tlv: string;
+	}
+
+	export interface UVC {
+		_nrofTriesDiffCodeTrans_8: number;
+		_verifyCode_32: string;
+		_authCode_160: string;
+	}
+}
+
 namespace PROTO_FACTORY {
 
-	export class PROTO_SGU {
-		body = new PROTO_BODY.SGU();
+	interface I_PROTO {
+		body: any;
+		generate(): string;
+	}
 
-		constructor(birthdate: string, gender: string, id: string, password: string, firstname: string, lastname: string){
-			this.body.birthdate = birthdate;
-			this.body.gender = gender;
-			this.body.tlv = new PROTO_BODY.SGU_TLV(id, password, firstname, lastname);
+	export class PROTO_SGU implements I_PROTO{
+		body: PROTO_BODY.SGU;
+		header: PROTO_HEADER;
+
+		constructor(params: PROTO_PARAMS.SGU){
+			this.body = new PROTO_BODY.SGU(params);
+			this.header = new PROTO_HEADER({_type_8: PROTO_TYPES.SGU, _length_16: this.body.value.length, _eid_24: CONFIG.eid});
 		}
 
 		generate(): string{
-			let header = new PROTO_HEADER({type: PROTO_TYPES.SGU, length: this.body.value.length, eid: CONFIG.eid}).header
+			let header = this.header.value;
 			let body = this.body.value;
 
 			return '{'+header+', '+body+'}'
 		}
 	}
 
-	namespace PROTO_BODY {
+	export class PROTO_UVC implements I_PROTO{
+		header: PROTO_HEADER;
+		body: PROTO_BODY.UVC;
+
+		constructor(params: PROTO_PARAMS.UVC){
+			this.body = new PROTO_BODY.UVC(params);
+			this.header = new PROTO_HEADER({_type_8: PROTO_TYPES.UVC, _length_16: this.body.value.length, _eid_24: CONFIG.eid});
+		}
+
+		generate (): string {
+			let header = this.header.value;
+			let body = this.body.value;
+
+			return '{'+header+','+body+'}';
+		}
+	}
+
+	export namespace PROTO_BODY {
 
 		export class SGU {
 			readonly MAX_SIZE_BIRTHDATE = 32;
@@ -65,6 +118,12 @@ namespace PROTO_FACTORY {
 			private _birthdate_32: string;
 			private _gender_8: string;
 			private _tlv: SGU_TLV;
+
+			constructor(params: PROTO_PARAMS.SGU){
+				this.birthdate = params._birthdate_32;
+				this.gender = params._gender_8;
+				this.tlv = new PROTO_BODY.SGU_TLV(params._email_tlv, params._password_tlv, params._firstname_tlv, params._lastname_tlv);
+			}
 
 			set birthdate (date: string) {
 
@@ -182,9 +241,93 @@ namespace PROTO_FACTORY {
 			}
 		}
 
+		export class UVC {
+			private MAX_SIZE_NR_OF_TRIES_DIFF_CODE_TRANS = 8;
+			private MAX_SIZE_VERIFY_CODE = 32;
+			private MAX_SIZE_AUTH_CODE = 160;
+
+			private _nrofTriesDiffCodeTrans_8: number;
+			private _verifyCode_32: string;
+			private _authCode_160: string;
+
+			constructor(params: PROTO_PARAMS.UVC){
+				this.nrofTriesDiffCodeTrans = params._nrofTriesDiffCodeTrans_8;
+				this.verifyCode = params._verifyCode_32;
+				this.authCode = params._authCode_160;
+			}
+
+			set nrofTriesDiffCodeTrans (nrofTriesDiffCodeTrans: number){
+				if(isUndefined(nrofTriesDiffCodeTrans) || nrofTriesDiffCodeTrans < -1) throw 'Invalid input'
+
+				if(nrofTriesDiffCodeTrans >= 2**this.MAX_SIZE_NR_OF_TRIES_DIFF_CODE_TRANS) throw 'Out of range'
+
+				this._nrofTriesDiffCodeTrans_8 = parseInt(nrofTriesDiffCodeTrans.toString(16));
+			}
+
+			get nrofTriesDiffCodeTrans (){
+				if(isUndefined(this._nrofTriesDiffCodeTrans_8)) throw 'Empty value'
+				return this._nrofTriesDiffCodeTrans_8;
+			}
+
+			set verifyCode (verifyCode: string){
+				if(isUndefined(verifyCode)) throw 'Invalid input'
+
+				if(verifyCode.length*8 >= this.MAX_SIZE_VERIFY_CODE) throw 'Out of range'
+
+				this._verifyCode_32 = verifyCode;
+			}
+
+			get verifyCode (){
+				if(isUndefined(this._verifyCode_32)) throw 'Empty value';
+
+				return this._verifyCode_32;
+			}
+
+			set authCode (authCode: string){
+				if(isUndefined(authCode)) throw 'Invalid input';
+
+				if(authCode.length*8 >= this.MAX_SIZE_AUTH_CODE) throw 'Out of range';
+
+				this._authCode_160 = authCode;
+			}
+
+			get authCode() {
+				if(isUndefined(this._authCode_160)) throw 'Empty value';
+
+				return this._authCode_160;
+			}
+
+			get value () {
+				return '"body": {' +
+					'"nrofTriesDiffCodeTrans": ' + ''+this._nrofTriesDiffCodeTrans_8 +''+
+					', "verifyCoe": ' + '"' + this._verifyCode_32 + '"' +
+					', "authCode": ' + '"'+ this._authCode_160 +'"'
+					+ '}'
+			}
+		}
+
+		export class SGI {}
+		export class SGO {}
+		export class UPC {}
+		export class FPU {}
+		export class UDR {}
+		export class AUV {}
+		export class ASR {}
+		export class ASD {}
+		export class ASV {}
+		export class SRG {}
+		export class SAS {}
+		export class SDD {}
+		export class SLV {}
+		export class RAV {}
+		export class RHV {}
+		export class HAV {}
+		export class SHR {}
+		export class HHV {}
+		export class KAS {}
 	}
 
-	class PROTO_HEADER {
+	export class PROTO_HEADER {
 		field1 = '"msg_type"';
 		field2 = '"msg_length"';
 		field3 = '"endpoint_id"';
@@ -196,13 +339,13 @@ namespace PROTO_FACTORY {
 		private _length_16: number = -1;
 		private _eid_24: number = -1;
 
-		constructor (config: { type: number, length: number, eid: number }) {
-			this._type_8 = config.type;
-			this._length_16 = config.length;
-			this._eid_24 = config.eid;
+		constructor (params: PROTO_PARAMS.HEADER) {
+			this._type_8 = params._type_8;
+			this._length_16 = params._length_16;
+			this._eid_24 = params._eid_24;
 		}
 
-		get header () {
+		get value () {
 			try {
 				if(this._type_8 * this._length_16 * this._eid_24 < 0) throw new RangeError();
 

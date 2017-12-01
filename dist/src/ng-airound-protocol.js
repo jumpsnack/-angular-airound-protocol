@@ -1,6 +1,16 @@
 import { Injectable } from '@angular/core';
 import { isUndefined } from "util";
 import { PROTO_TYPES, CONFIG } from "./ng-airound-protocol-config";
+String.prototype.hexBitsLength = function () {
+    return (this.length * 8).toString(16);
+};
+String.prototype.toHex = function () {
+    var result = '';
+    for (var i = 0; i < this.length; i++) {
+        result += this.charCodeAt(i).toString(16);
+    }
+    return result;
+};
 var AiroundProtocolBuilder = (function () {
     function AiroundProtocolBuilder() {
     }
@@ -14,8 +24,14 @@ var AiroundProtocolBuilder = (function () {
         enumerable: true,
         configurable: true
     });
-    AiroundProtocolBuilder.prototype.SGU = function (user) {
-        return new PROTO_FACTORY.PROTO_SGU(user.birthdate, user.gender, user.id, user.password, user.firstname, user.lastname).generate();
+    // public SGU(user: {birthdate_32: string, gender_8: string, email_tlv: string, password_tlv: string, firstname_tlv: string, lastname_tlv: string}): string {
+    // 	return new PROTO_FACTORY.PROTO_SGU(user.birthdate_32, user.gender_8, user.email_tlv, user.password_tlv, user.firstname_tlv, user.lastname_tlv).generate()
+    // }
+    AiroundProtocolBuilder.prototype.SGU = function (params) {
+        return new PROTO_FACTORY.PROTO_SGU(params).generate();
+    };
+    AiroundProtocolBuilder.prototype.UVC = function (params) {
+        return new PROTO_FACTORY.PROTO_UVC(params).generate();
     };
     AiroundProtocolBuilder.decorators = [
         { type: Injectable },
@@ -25,38 +41,42 @@ var AiroundProtocolBuilder = (function () {
     return AiroundProtocolBuilder;
 }());
 export { AiroundProtocolBuilder };
-String.prototype.hexBitsLength = function () {
-    return (this.length * 8).toString(16);
-};
-String.prototype.toHex = function () {
-    var result = '';
-    for (var i = 0; i < this.length; i++) {
-        result += this.charCodeAt(i).toString(16);
-    }
-    return result;
-};
 var PROTO_FACTORY;
 (function (PROTO_FACTORY) {
     var PROTO_SGU = (function () {
-        function PROTO_SGU(birthdate, gender, id, password, firstname, lastname) {
-            this.body = new PROTO_BODY.SGU();
-            this.body.birthdate = birthdate;
-            this.body.gender = gender;
-            this.body.tlv = new PROTO_BODY.SGU_TLV(id, password, firstname, lastname);
+        function PROTO_SGU(params) {
+            this.body = new PROTO_BODY.SGU(params);
+            this.header = new PROTO_HEADER({ _type_8: PROTO_TYPES.SGU, _length_16: this.body.value.length, _eid_24: CONFIG.eid });
         }
         PROTO_SGU.prototype.generate = function () {
-            var header = new PROTO_HEADER({ type: PROTO_TYPES.SGU, length: this.body.value.length, eid: CONFIG.eid }).header;
+            var header = this.header.value;
             var body = this.body.value;
             return '{' + header + ', ' + body + '}';
         };
         return PROTO_SGU;
     }());
     PROTO_FACTORY.PROTO_SGU = PROTO_SGU;
+    var PROTO_UVC = (function () {
+        function PROTO_UVC(params) {
+            this.body = new PROTO_BODY.UVC(params);
+            this.header = new PROTO_HEADER({ _type_8: PROTO_TYPES.UVC, _length_16: this.body.value.length, _eid_24: CONFIG.eid });
+        }
+        PROTO_UVC.prototype.generate = function () {
+            var header = this.header.value;
+            var body = this.body.value;
+            return '{' + header + ',' + body + '}';
+        };
+        return PROTO_UVC;
+    }());
+    PROTO_FACTORY.PROTO_UVC = PROTO_UVC;
     var PROTO_BODY;
     (function (PROTO_BODY) {
         var SGU = (function () {
-            function SGU() {
+            function SGU(params) {
                 this.MAX_SIZE_BIRTHDATE = 32;
+                this.birthdate = params._birthdate_32;
+                this.gender = params._gender_8;
+                this.tlv = new PROTO_BODY.SGU_TLV(params._email_tlv, params._password_tlv, params._firstname_tlv, params._lastname_tlv);
             }
             Object.defineProperty(SGU.prototype, "birthdate", {
                 get: function () {
@@ -193,9 +213,194 @@ var PROTO_FACTORY;
             return SGU_TLV;
         }());
         PROTO_BODY.SGU_TLV = SGU_TLV;
-    })(PROTO_BODY || (PROTO_BODY = {}));
+        var UVC = (function () {
+            function UVC(params) {
+                this.MAX_SIZE_NR_OF_TRIES_DIFF_CODE_TRANS = 8;
+                this.MAX_SIZE_VERIFY_CODE = 32;
+                this.MAX_SIZE_AUTH_CODE = 160;
+                this.nrofTriesDiffCodeTrans = params._nrofTriesDiffCodeTrans_8;
+                this.verifyCode = params._verifyCode_32;
+                this.authCode = params._authCode_160;
+            }
+            Object.defineProperty(UVC.prototype, "nrofTriesDiffCodeTrans", {
+                get: function () {
+                    if (isUndefined(this._nrofTriesDiffCodeTrans_8))
+                        throw 'Empty value';
+                    return this._nrofTriesDiffCodeTrans_8;
+                },
+                set: function (nrofTriesDiffCodeTrans) {
+                    if (isUndefined(nrofTriesDiffCodeTrans) || nrofTriesDiffCodeTrans < -1)
+                        throw 'Invalid input';
+                    if (nrofTriesDiffCodeTrans >= Math.pow(2, this.MAX_SIZE_NR_OF_TRIES_DIFF_CODE_TRANS))
+                        throw 'Out of range';
+                    this._nrofTriesDiffCodeTrans_8 = parseInt(nrofTriesDiffCodeTrans.toString(16));
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(UVC.prototype, "verifyCode", {
+                get: function () {
+                    if (isUndefined(this._verifyCode_32))
+                        throw 'Empty value';
+                    return this._verifyCode_32;
+                },
+                set: function (verifyCode) {
+                    if (isUndefined(verifyCode))
+                        throw 'Invalid input';
+                    if (verifyCode.length * 8 >= this.MAX_SIZE_VERIFY_CODE)
+                        throw 'Out of range';
+                    this._verifyCode_32 = verifyCode;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(UVC.prototype, "authCode", {
+                get: function () {
+                    if (isUndefined(this._authCode_160))
+                        throw 'Empty value';
+                    return this._authCode_160;
+                },
+                set: function (authCode) {
+                    if (isUndefined(authCode))
+                        throw 'Invalid input';
+                    if (authCode.length * 8 >= this.MAX_SIZE_AUTH_CODE)
+                        throw 'Out of range';
+                    this._authCode_160 = authCode;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(UVC.prototype, "value", {
+                get: function () {
+                    return '"body": {' +
+                        '"nrofTriesDiffCodeTrans": ' + '' + this._nrofTriesDiffCodeTrans_8 + '' +
+                        ', "verifyCoe": ' + '"' + this._verifyCode_32 + '"' +
+                        ', "authCode": ' + '"' + this._authCode_160 + '"'
+                        + '}';
+                },
+                enumerable: true,
+                configurable: true
+            });
+            return UVC;
+        }());
+        PROTO_BODY.UVC = UVC;
+        var SGI = (function () {
+            function SGI() {
+            }
+            return SGI;
+        }());
+        PROTO_BODY.SGI = SGI;
+        var SGO = (function () {
+            function SGO() {
+            }
+            return SGO;
+        }());
+        PROTO_BODY.SGO = SGO;
+        var UPC = (function () {
+            function UPC() {
+            }
+            return UPC;
+        }());
+        PROTO_BODY.UPC = UPC;
+        var FPU = (function () {
+            function FPU() {
+            }
+            return FPU;
+        }());
+        PROTO_BODY.FPU = FPU;
+        var UDR = (function () {
+            function UDR() {
+            }
+            return UDR;
+        }());
+        PROTO_BODY.UDR = UDR;
+        var AUV = (function () {
+            function AUV() {
+            }
+            return AUV;
+        }());
+        PROTO_BODY.AUV = AUV;
+        var ASR = (function () {
+            function ASR() {
+            }
+            return ASR;
+        }());
+        PROTO_BODY.ASR = ASR;
+        var ASD = (function () {
+            function ASD() {
+            }
+            return ASD;
+        }());
+        PROTO_BODY.ASD = ASD;
+        var ASV = (function () {
+            function ASV() {
+            }
+            return ASV;
+        }());
+        PROTO_BODY.ASV = ASV;
+        var SRG = (function () {
+            function SRG() {
+            }
+            return SRG;
+        }());
+        PROTO_BODY.SRG = SRG;
+        var SAS = (function () {
+            function SAS() {
+            }
+            return SAS;
+        }());
+        PROTO_BODY.SAS = SAS;
+        var SDD = (function () {
+            function SDD() {
+            }
+            return SDD;
+        }());
+        PROTO_BODY.SDD = SDD;
+        var SLV = (function () {
+            function SLV() {
+            }
+            return SLV;
+        }());
+        PROTO_BODY.SLV = SLV;
+        var RAV = (function () {
+            function RAV() {
+            }
+            return RAV;
+        }());
+        PROTO_BODY.RAV = RAV;
+        var RHV = (function () {
+            function RHV() {
+            }
+            return RHV;
+        }());
+        PROTO_BODY.RHV = RHV;
+        var HAV = (function () {
+            function HAV() {
+            }
+            return HAV;
+        }());
+        PROTO_BODY.HAV = HAV;
+        var SHR = (function () {
+            function SHR() {
+            }
+            return SHR;
+        }());
+        PROTO_BODY.SHR = SHR;
+        var HHV = (function () {
+            function HHV() {
+            }
+            return HHV;
+        }());
+        PROTO_BODY.HHV = HHV;
+        var KAS = (function () {
+            function KAS() {
+            }
+            return KAS;
+        }());
+        PROTO_BODY.KAS = KAS;
+    })(PROTO_BODY = PROTO_FACTORY.PROTO_BODY || (PROTO_FACTORY.PROTO_BODY = {}));
     var PROTO_HEADER = (function () {
-        function PROTO_HEADER(config) {
+        function PROTO_HEADER(params) {
             this.field1 = '"msg_type"';
             this.field2 = '"msg_length"';
             this.field3 = '"endpoint_id"';
@@ -204,11 +409,11 @@ var PROTO_FACTORY;
             this._type_8 = -1;
             this._length_16 = -1;
             this._eid_24 = -1;
-            this._type_8 = config.type;
-            this._length_16 = config.length;
-            this._eid_24 = config.eid;
+            this._type_8 = params._type_8;
+            this._length_16 = params._length_16;
+            this._eid_24 = params._eid_24;
         }
-        Object.defineProperty(PROTO_HEADER.prototype, "header", {
+        Object.defineProperty(PROTO_HEADER.prototype, "value", {
             get: function () {
                 try {
                     if (this._type_8 * this._length_16 * this._eid_24 < 0)
@@ -235,5 +440,6 @@ var PROTO_FACTORY;
         });
         return PROTO_HEADER;
     }());
+    PROTO_FACTORY.PROTO_HEADER = PROTO_HEADER;
 })(PROTO_FACTORY || (PROTO_FACTORY = {}));
 //# sourceMappingURL=ng-airound-protocol.js.map
