@@ -1,0 +1,123 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node', '/usr/local/bin/npm', 'publish' ]
+2 info using npm@3.10.10
+3 info using node@v6.11.2
+4 verbose publish [ '.' ]
+5 silly cache add args [ '.', null ]
+6 verbose cache add spec .
+7 silly cache add parsed spec Result {
+7 silly cache add   raw: '.',
+7 silly cache add   scope: null,
+7 silly cache add   escapedName: null,
+7 silly cache add   name: null,
+7 silly cache add   rawSpec: '.',
+7 silly cache add   spec: '/Users/eddie/CODE/Angular/angular-airound-protocol',
+7 silly cache add   type: 'directory' }
+8 verbose addLocalDirectory /Users/eddie/.npm/angular-airound-protocol/1.0.0/package.tgz not in flight; packing
+9 verbose correctMkdir /Users/eddie/.npm correctMkdir not in flight; initializing
+10 info lifecycle angular-airound-protocol@1.0.0~prepublish: angular-airound-protocol@1.0.0
+11 silly lifecycle angular-airound-protocol@1.0.0~prepublish: no script for prepublish, continuing
+12 verbose tar pack [ '/Users/eddie/.npm/angular-airound-protocol/1.0.0/package.tgz',
+12 verbose tar pack   '/Users/eddie/CODE/Angular/angular-airound-protocol' ]
+13 verbose tarball /Users/eddie/.npm/angular-airound-protocol/1.0.0/package.tgz
+14 verbose folder /Users/eddie/CODE/Angular/angular-airound-protocol
+15 verbose addLocalTarball adding from inside cache /Users/eddie/.npm/angular-airound-protocol/1.0.0/package.tgz
+16 verbose correctMkdir /Users/eddie/.npm correctMkdir not in flight; initializing
+17 silly cache afterAdd angular-airound-protocol@1.0.0
+18 verbose afterAdd /Users/eddie/.npm/angular-airound-protocol/1.0.0/package/package.json not in flight; writing
+19 verbose correctMkdir /Users/eddie/.npm correctMkdir not in flight; initializing
+20 verbose afterAdd /Users/eddie/.npm/angular-airound-protocol/1.0.0/package/package.json written
+21 silly publish { name: 'angular-airound-protocol',
+21 silly publish   version: '1.0.0',
+21 silly publish   description: 'protocol builder for airound project at Qualcomm Institute',
+21 silly publish   main: 'dist/bundles/ng-airound-protocol.umd.js',
+21 silly publish   scripts:
+21 silly publish    { cleanup: 'rimraf dist/bundles dist/src dist/index.d.ts dist/index.js dist/index.js.map dist/LICENCE dist/README.md',
+21 silly publish      bundling: 'rollup -c',
+21 silly publish      minify: 'uglifyjs dist/bundles/ng-airound-protocol.umd.js --screw-ie8 --compress --mangle --comments --output dist/bundles/ng-airound-protocol.umd.js',
+21 silly publish      build: 'npm run cleanup && ngc && npm run bundling && npm run minify' },
+21 silly publish   author: { name: 'jumpsnack' },
+21 silly publish   license: 'MIT',
+21 silly publish   repository:
+21 silly publish    { type: 'git',
+21 silly publish      url: 'git+https://github.com/jumpsnack/angular-airound-protocol.git' },
+21 silly publish   homepage: 'https://jumpsnack.github.io',
+21 silly publish   dependencies:
+21 silly publish    { '@angular/core': '^2.4.0',
+21 silly publish      '@types/node': '^8.0.53',
+21 silly publish      'reflect-metadata': '^0.1.8',
+21 silly publish      rxjs: '^5.0.1',
+21 silly publish      'zone.js': '^0.7.2' },
+21 silly publish   devDependencies:
+21 silly publish    { '@angular/compiler': '^2.4.0',
+21 silly publish      '@angular/compiler-cli': '^2.4.0',
+21 silly publish      rimraf: '^2.5.4',
+21 silly publish      rollup: '^0.37.0',
+21 silly publish      typescript: '~2.0.10',
+21 silly publish      'uglify-js': '^2.7.5' },
+21 silly publish   readme: '# angular-airound-protocol\n',
+21 silly publish   readmeFilename: 'README.md',
+21 silly publish   gitHead: 'c2462674c7677ba635d0f0f17f3ea38f17f66652',
+21 silly publish   bugs: { url: 'https://github.com/jumpsnack/angular-airound-protocol/issues' },
+21 silly publish   _id: 'angular-airound-protocol@1.0.0',
+21 silly publish   _shasum: 'b1a2d6fcf26e5ba3aa824bd64722fc446e258006',
+21 silly publish   _from: '.' }
+22 verbose getPublishConfig undefined
+23 silly mapToRegistry name angular-airound-protocol
+24 silly mapToRegistry using default registry
+25 silly mapToRegistry registry https://registry.npmjs.org/
+26 silly mapToRegistry data Result {
+26 silly mapToRegistry   raw: 'angular-airound-protocol',
+26 silly mapToRegistry   scope: null,
+26 silly mapToRegistry   escapedName: 'angular-airound-protocol',
+26 silly mapToRegistry   name: 'angular-airound-protocol',
+26 silly mapToRegistry   rawSpec: '',
+26 silly mapToRegistry   spec: 'latest',
+26 silly mapToRegistry   type: 'tag' }
+27 silly mapToRegistry uri https://registry.npmjs.org/angular-airound-protocol
+28 verbose publish registryBase https://registry.npmjs.org/
+29 silly publish uploading /Users/eddie/.npm/angular-airound-protocol/1.0.0/package.tgz
+30 verbose request uri https://registry.npmjs.org/angular-airound-protocol
+31 verbose request sending authorization for write operation
+32 info attempt registry request try #1 at 16:30:24
+33 verbose request using bearer token for auth
+34 verbose request id 3ec5ec6089058d63
+35 http request PUT https://registry.npmjs.org/angular-airound-protocol
+36 http 403 https://registry.npmjs.org/angular-airound-protocol
+37 verbose headers { 'content-type': 'application/json',
+37 verbose headers   'cache-control': 'max-age=300',
+37 verbose headers   'content-length': '91',
+37 verbose headers   'accept-ranges': 'bytes',
+37 verbose headers   date: 'Fri, 01 Dec 2017 00:30:25 GMT',
+37 verbose headers   via: '1.1 varnish',
+37 verbose headers   connection: 'keep-alive',
+37 verbose headers   'x-served-by': 'cache-bur17549-BUR',
+37 verbose headers   'x-cache': 'MISS',
+37 verbose headers   'x-cache-hits': '0',
+37 verbose headers   'x-timer': 'S1512088225.816276,VS0,VE222',
+37 verbose headers   vary: 'Accept-Encoding, Accept' }
+38 verbose request invalidating /Users/eddie/.npm/registry.npmjs.org/angular-airound-protocol on PUT
+39 error publish Failed PUT 403
+40 verbose stack Error: You cannot publish over the previously published version 1.0.0. : angular-airound-protocol
+40 verbose stack     at makeError (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:302:12)
+40 verbose stack     at CachingRegistryClient.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:290:14)
+40 verbose stack     at Request._callback (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:210:14)
+40 verbose stack     at Request.self.callback (/usr/local/lib/node_modules/npm/node_modules/request/request.js:187:22)
+40 verbose stack     at emitTwo (events.js:106:13)
+40 verbose stack     at Request.emit (events.js:191:7)
+40 verbose stack     at Request.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:1048:10)
+40 verbose stack     at emitOne (events.js:96:13)
+40 verbose stack     at Request.emit (events.js:188:7)
+40 verbose stack     at IncomingMessage.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:969:12)
+41 verbose statusCode 403
+42 verbose pkgid angular-airound-protocol
+43 verbose cwd /Users/eddie/CODE/Angular/angular-airound-protocol
+44 error Darwin 17.2.0
+45 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "publish"
+46 error node v6.11.2
+47 error npm  v3.10.10
+48 error code E403
+49 error You cannot publish over the previously published version 1.0.0. : angular-airound-protocol
+50 error If you need help, you may report this error at:
+50 error     <https://github.com/npm/npm/issues>
+51 verbose exit [ 1, true ]
