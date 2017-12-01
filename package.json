@@ -1,6 +1,6 @@
 {
   "name": "angular-airound-protocol",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "protocol builder for airound project at Qualcomm Institute",
   "main": "dist/bundles/ng-airound-protocol.umd.js",
   "scripts": {
@@ -17,18 +17,18 @@
   },
   "homepage": "https://jumpsnack.github.io",
   "dependencies": {
-    "@angular/core": "^2.4.0",
-    "@types/node": "^8.0.53",
-    "reflect-metadata": "^0.1.8",
-    "rxjs": "^5.0.1",
-    "zone.js": "^0.7.2"
+    "@angular/core": ">=5.0.3",
+    "@types/node": ">=8.0.53",
+    "reflect-metadata": ">=0.1.10",
+    "rxjs": ">=5.5.2",
+    "zone.js": ">=0.8.18"
   },
   "devDependencies": {
-    "@angular/compiler": "^2.4.0",
-    "@angular/compiler-cli": "^2.4.0",
-    "rimraf": "^2.5.4",
-    "rollup": "^0.37.0",
-    "typescript": "~2.0.10",
-    "uglify-js": "^2.7.5"
+    "@angular/compiler": ">=5.0.3",
+    "@angular/compiler-cli": ">=5.0.3",
+    "rimraf": ">=2.6.2",
+    "rollup": ">=0.52.0",
+    "typescript": "2.4.2",
+    "uglify-js": ">=3.2.0"
   }
 }

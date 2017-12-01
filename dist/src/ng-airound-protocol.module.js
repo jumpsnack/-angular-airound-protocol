@@ -4,7 +4,7 @@ export function AiroundProtocolFactory() {
     return new AiroundProtocolBuilder();
 }
 ;
-export var AiroundProtocolModule = (function () {
+var AiroundProtocolModule = (function () {
     function AiroundProtocolModule() {
     }
     AiroundProtocolModule.decorators = [
@@ -21,4 +21,5 @@ export var AiroundProtocolModule = (function () {
     AiroundProtocolModule.ctorParameters = function () { return []; };
     return AiroundProtocolModule;
 }());
+export { AiroundProtocolModule };
 //# sourceMappingURL=ng-airound-protocol.module.js.map

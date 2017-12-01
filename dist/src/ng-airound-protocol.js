@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { isUndefined } from "util";
-export var AiroundProtocolBuilder = (function () {
+var AiroundProtocolBuilder = (function () {
     function AiroundProtocolBuilder() {
     }
     AiroundProtocolBuilder.prototype.SGU = function (user) {
@@ -13,6 +13,7 @@ export var AiroundProtocolBuilder = (function () {
     AiroundProtocolBuilder.ctorParameters = function () { return []; };
     return AiroundProtocolBuilder;
 }());
+export { AiroundProtocolBuilder };
 String.prototype.hexBitsLength = function () {
     return (this.length * 8).toString(16);
 };
