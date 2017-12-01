@@ -5,15 +5,15 @@ import { PROTO_TYPES, CONFIG } from "./ng-airound-protocol-config";
 @Injectable()
 export class AiroundProtocolBuilder {
 
-	set CONFIG_EID(eid: number){
+	public set CONFIG_EID(eid: number){
 		CONFIG.eid = eid;
 	}
 
-	get CONFIG_EID(){
+	public get CONFIG_EID(){
 		return CONFIG.eid;
 	}
 
-	SGU(user: {birthdate: string, gender: string, id: string, password: string, firstname: string, lastname: string}): string {
+	public SGU(user: {birthdate: string, gender: string, id: string, password: string, firstname: string, lastname: string}): string {
 		return new PROTO_FACTORY.PROTO_SGU(user.birthdate, user.gender, user.id, user.password, user.firstname, user.lastname).generate()
 	}
 }
