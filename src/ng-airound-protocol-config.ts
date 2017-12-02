@@ -52,7 +52,7 @@ export namespace QI {
 
 	export namespace Error {
 		export let isUndefined = (obj: any) => {
-			if(obj === undefined) {
+			if(!obj) {
 				throw '[QI.Error.isUndefined]: '+ obj._name + ' => undefined';
 			}
 		}
