@@ -40,7 +40,7 @@ export var QI;
     (function (Error) {
         Error.isUndefined = function (obj) {
             if (!obj) {
-                throw '[QI.Error.isUndefined]: ' + getVariableName(obj) + ' => undefined';
+                throw '[QI.Error.isUndefined]: ' + getVariableName(function () { return obj; }) + ' => undefined';
             }
         };
     })(Error = QI.Error || (QI.Error = {}));
