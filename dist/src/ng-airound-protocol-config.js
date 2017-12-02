@@ -38,12 +38,29 @@ export var QI;
 (function (QI) {
     var Error;
     (function (Error) {
-        function isUndefined(obj) {
-            if (!obj) {
-                throw '[QI.Error.isUndefined]: ' + isUndefined.caller + ' => undefined';
+        function isInvalidInput(name, obj) {
+            if (obj instanceof String && !obj) {
+                throw '[QI.Error.isInvalidInput]: ' + name + '=> Invalid input';
             }
         }
-        Error.isUndefined = isUndefined;
+        Error.isInvalidInput = isInvalidInput;
+        function isEmptyValue(name, obj) {
+            if (!obj) {
+                throw '[QI.Error.isEmptyValue]: ' + name + '=> Empty value';
+            }
+        }
+        Error.isEmptyValue = isEmptyValue;
+        function isWithinRange(name, obj, maxBits) {
+            if (obj instanceof String) {
+                if (obj.length * 8 >= Math.pow(2, maxBits))
+                    throw '[QI.Error.isWithinRange]: ' + name + ' ' + obj.length * 8 + ' => Out of range (<' + Math.pow(2, maxBits) + ')';
+            }
+            else if (obj instanceof Number) {
+                if (obj >= Math.pow(2, maxBits))
+                    throw '[QI.Error.isWithinRange]: ' + name + ' ' + obj + ' => Out of range (<' + Math.pow(2, maxBits) + ')';
+            }
+        }
+        Error.isWithinRange = isWithinRange;
     })(Error = QI.Error || (QI.Error = {}));
 })(QI || (QI = {}));
 //# sourceMappingURL=ng-airound-protocol-config.js.map

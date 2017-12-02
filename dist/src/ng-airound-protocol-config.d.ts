@@ -33,7 +33,9 @@ declare global  {
 export declare namespace QI {
     type AiroundString = string;
     namespace Error {
-        function isUndefined(obj: any): void;
+        function isInvalidInput(name: string, obj: any): void;
+        function isEmptyValue(name: string, obj: any): void;
+        function isWithinRange(name: string, obj: any, maxBits: number): void;
     }
 }
 export {};

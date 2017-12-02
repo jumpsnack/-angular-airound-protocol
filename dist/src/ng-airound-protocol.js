@@ -68,13 +68,13 @@ var PROTO_FACTORY;
             }
             Object.defineProperty(SGU.prototype, "birthdate", {
                 get: function () {
-                    if (isUndefined(this._birthdate_32))
-                        throw 'Empty value';
+                    // if(isUndefined( this._birthdate_32 )) throw 'Empty value';
+                    QI.Error.isEmptyValue('get birthdate', this._birthdate_32);
                     return this._birthdate_32;
                 },
                 set: function (date) {
-                    if (isUndefined(date))
-                        throw 'Invalid input';
+                    // if(isUndefined( date )) throw 'Invalid input';
+                    QI.Error.isInvalidInput('set birthdate', date);
                     var splitedDate = date.split('/');
                     var sequenceDate = '';
                     var numDate = -1;
@@ -98,8 +98,8 @@ var PROTO_FACTORY;
             });
             Object.defineProperty(SGU.prototype, "gender", {
                 get: function () {
-                    if (isUndefined(this._gender_8))
-                        throw 'Empty value';
+                    // if(isUndefined( this._gender_8 )) throw 'Empty value';
+                    QI.Error.isEmptyValue('get gender', this._gender_8);
                     return this._gender_8;
                 },
                 set: function (gender) {
@@ -121,8 +121,8 @@ var PROTO_FACTORY;
             });
             Object.defineProperty(SGU.prototype, "tlv", {
                 get: function () {
-                    if (isUndefined(this._tlv))
-                        throw 'Empty value';
+                    // if(isUndefined( this._tlv )) throw 'Empty value';
+                    QI.Error.isEmptyValue('get tlv', this._tlv);
                     return this._tlv;
                 },
                 set: function (tlv) {
@@ -212,15 +212,15 @@ var PROTO_FACTORY;
             }
             Object.defineProperty(UVC.prototype, "nrofTriesDiffCodeTrans", {
                 get: function () {
-                    if (isUndefined(this._nrofTriesDiffCodeTrans_8))
-                        throw 'Empty value';
+                    // if(isUndefined(this._nrofTriesDiffCodeTrans_8)) throw 'Empty value'
+                    QI.Error.isEmptyValue('get nrofTriesDiffCodeTrans', this._nrofTriesDiffCodeTrans_8);
                     return this._nrofTriesDiffCodeTrans_8;
                 },
                 set: function (nrofTriesDiffCodeTrans) {
                     if (isUndefined(nrofTriesDiffCodeTrans) || nrofTriesDiffCodeTrans < -1)
                         throw 'Invalid input';
-                    if (nrofTriesDiffCodeTrans >= Math.pow(2, this.MAX_SIZE_NR_OF_TRIES_DIFF_CODE_TRANS))
-                        throw '[nrofTriesDiffCodeTrans]: ' + nrofTriesDiffCodeTrans + ' => Out of range (<' + Math.pow(2, this.MAX_SIZE_NR_OF_TRIES_DIFF_CODE_TRANS) + ')';
+                    // if(nrofTriesDiffCodeTrans >= 2**this.MAX_SIZE_NR_OF_TRIES_DIFF_CODE_TRANS) throw '[nrofTriesDiffCodeTrans]: '+nrofTriesDiffCodeTrans+' => Out of range (<'+2**this.MAX_SIZE_NR_OF_TRIES_DIFF_CODE_TRANS+')'
+                    QI.Error.isWithinRange('set nrofTriesDiffCodeTrans', nrofTriesDiffCodeTrans, this.MAX_SIZE_NR_OF_TRIES_DIFF_CODE_TRANS);
                     this._nrofTriesDiffCodeTrans_8 = parseInt(nrofTriesDiffCodeTrans.toString(16));
                 },
                 enumerable: true,
@@ -228,15 +228,15 @@ var PROTO_FACTORY;
             });
             Object.defineProperty(UVC.prototype, "verifyCode", {
                 get: function () {
-                    if (isUndefined(this._verifyCode_32))
-                        throw 'Empty value';
+                    // if(isUndefined(this._verifyCode_32)) throw 'Empty value';
+                    QI.Error.isEmptyValue('get verifyCode', this._verifyCode_32);
                     return this._verifyCode_32;
                 },
                 set: function (verifyCode) {
-                    if (isUndefined(verifyCode))
-                        throw 'Invalid input';
-                    if (verifyCode.length * 8 >= Math.pow(2, this.MAX_SIZE_VERIFY_CODE))
-                        throw '[verifyCode]: ' + verifyCode.length * 8 + ' => Out of range (<' + Math.pow(2, this.MAX_SIZE_VERIFY_CODE) + ')';
+                    // if(isUndefined(verifyCode)) throw 'Invalid input'
+                    QI.Error.isInvalidInput('set verifyCode', verifyCode);
+                    // if(verifyCode.length*8 >= 2 ** this.MAX_SIZE_VERIFY_CODE) throw '[verifyCode]: '+verifyCode.length*8+' => Out of range (<'+2**this.MAX_SIZE_VERIFY_CODE+')'
+                    QI.Error.isWithinRange('set verifyCode', verifyCode, this.MAX_SIZE_VERIFY_CODE);
                     this._verifyCode_32 = verifyCode;
                 },
                 enumerable: true,
@@ -244,15 +244,15 @@ var PROTO_FACTORY;
             });
             Object.defineProperty(UVC.prototype, "authCode", {
                 get: function () {
-                    if (isUndefined(this._authCode_160))
-                        throw 'Empty value';
+                    // if(isUndefined(this._authCode_160)) throw 'Empty value';
+                    QI.Error.isEmptyValue('get authCode', this._authCode_160);
                     return this._authCode_160;
                 },
                 set: function (authCode) {
                     //if(isUndefined(authCode)) throw 'Invalid input';
-                    QI.Error.isUndefined(authCode);
-                    if (authCode.length * 8 >= Math.pow(2, this.MAX_SIZE_AUTH_CODE))
-                        throw '[authCode]: ' + authCode.length * 8 + ' => Out of range (<' + Math.pow(2, this.MAX_SIZE_AUTH_CODE) + ')';
+                    QI.Error.isInvalidInput('set authCode', authCode);
+                    // if(authCode.length*8 >= 2**this.MAX_SIZE_AUTH_CODE) throw '[authCode]: '+authCode.length*8+' => Out of range (<'+2**this.MAX_SIZE_AUTH_CODE+')'
+                    QI.Error.isWithinRange('set authCode', authCode, this.MAX_SIZE_AUTH_CODE);
                     this._authCode_160 = authCode;
                 },
                 enumerable: true,

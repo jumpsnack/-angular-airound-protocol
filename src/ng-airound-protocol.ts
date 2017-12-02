@@ -104,7 +104,8 @@ namespace PROTO_FACTORY {
 
 			set birthdate (date: string) {
 
-				if(isUndefined( date )) throw 'Invalid input';
+				// if(isUndefined( date )) throw 'Invalid input';
+				QI.Error.isInvalidInput('set birthdate', date);
 
 				let splitedDate = date.split( '/' );
 				let sequenceDate = '';
@@ -127,7 +128,8 @@ namespace PROTO_FACTORY {
 			}
 
 			get birthdate () {
-				if(isUndefined( this._birthdate_32 )) throw 'Empty value';
+				// if(isUndefined( this._birthdate_32 )) throw 'Empty value';
+				QI.Error.isEmptyValue('get birthdate', this._birthdate_32)
 				return this._birthdate_32;
 			}
 
@@ -144,7 +146,8 @@ namespace PROTO_FACTORY {
 			}
 
 			get gender () {
-				if(isUndefined( this._gender_8 )) throw 'Empty value';
+				// if(isUndefined( this._gender_8 )) throw 'Empty value';
+				QI.Error.isEmptyValue('get gender', this._gender_8);
 				return this._gender_8;
 			}
 
@@ -153,7 +156,8 @@ namespace PROTO_FACTORY {
 			}
 
 			get tlv () {
-				if(isUndefined( this._tlv )) throw 'Empty value';
+				// if(isUndefined( this._tlv )) throw 'Empty value';
+				QI.Error.isEmptyValue('get tlv', this._tlv);
 				return this._tlv;
 			}
 
@@ -236,41 +240,48 @@ namespace PROTO_FACTORY {
 			set nrofTriesDiffCodeTrans (nrofTriesDiffCodeTrans: number){
 				if(isUndefined(nrofTriesDiffCodeTrans) || nrofTriesDiffCodeTrans < -1) throw 'Invalid input'
 
-				if(nrofTriesDiffCodeTrans >= 2**this.MAX_SIZE_NR_OF_TRIES_DIFF_CODE_TRANS) throw '[nrofTriesDiffCodeTrans]: '+nrofTriesDiffCodeTrans+' => Out of range (<'+2**this.MAX_SIZE_NR_OF_TRIES_DIFF_CODE_TRANS+')'
+				// if(nrofTriesDiffCodeTrans >= 2**this.MAX_SIZE_NR_OF_TRIES_DIFF_CODE_TRANS) throw '[nrofTriesDiffCodeTrans]: '+nrofTriesDiffCodeTrans+' => Out of range (<'+2**this.MAX_SIZE_NR_OF_TRIES_DIFF_CODE_TRANS+')'
+				QI.Error.isWithinRange('set nrofTriesDiffCodeTrans', nrofTriesDiffCodeTrans, this.MAX_SIZE_NR_OF_TRIES_DIFF_CODE_TRANS);
 
 				this._nrofTriesDiffCodeTrans_8 = parseInt(nrofTriesDiffCodeTrans.toString(16));
 			}
 
 			get nrofTriesDiffCodeTrans (){
-				if(isUndefined(this._nrofTriesDiffCodeTrans_8)) throw 'Empty value'
+				// if(isUndefined(this._nrofTriesDiffCodeTrans_8)) throw 'Empty value'
+				QI.Error.isEmptyValue('get nrofTriesDiffCodeTrans', this._nrofTriesDiffCodeTrans_8);
 				return this._nrofTriesDiffCodeTrans_8;
 			}
 
 			set verifyCode (verifyCode: string){
-				if(isUndefined(verifyCode)) throw 'Invalid input'
+				// if(isUndefined(verifyCode)) throw 'Invalid input'
+				QI.Error.isInvalidInput('set verifyCode', verifyCode);
 
-				if(verifyCode.length*8 >= 2 ** this.MAX_SIZE_VERIFY_CODE) throw '[verifyCode]: '+verifyCode.length*8+' => Out of range (<'+2**this.MAX_SIZE_VERIFY_CODE+')'
+				// if(verifyCode.length*8 >= 2 ** this.MAX_SIZE_VERIFY_CODE) throw '[verifyCode]: '+verifyCode.length*8+' => Out of range (<'+2**this.MAX_SIZE_VERIFY_CODE+')'
+				QI.Error.isWithinRange('set verifyCode', verifyCode, this.MAX_SIZE_VERIFY_CODE);
 
 				this._verifyCode_32 = verifyCode;
 			}
 
 			get verifyCode (){
-				if(isUndefined(this._verifyCode_32)) throw 'Empty value';
+				// if(isUndefined(this._verifyCode_32)) throw 'Empty value';
+				QI.Error.isEmptyValue('get verifyCode', this._verifyCode_32);
 
 				return this._verifyCode_32;
 			}
 
 			set authCode (authCode: string){
 				//if(isUndefined(authCode)) throw 'Invalid input';
-				QI.Error.isUndefined(authCode);
+				QI.Error.isInvalidInput('set authCode', authCode);
 
-				if(authCode.length*8 >= 2**this.MAX_SIZE_AUTH_CODE) throw '[authCode]: '+authCode.length*8+' => Out of range (<'+2**this.MAX_SIZE_AUTH_CODE+')'
+				// if(authCode.length*8 >= 2**this.MAX_SIZE_AUTH_CODE) throw '[authCode]: '+authCode.length*8+' => Out of range (<'+2**this.MAX_SIZE_AUTH_CODE+')'
+				QI.Error.isWithinRange('set authCode', authCode,this.MAX_SIZE_AUTH_CODE);
 
 				this._authCode_160 = authCode;
 			}
 
 			get authCode() {
-				if(isUndefined(this._authCode_160)) throw 'Empty value';
+				// if(isUndefined(this._authCode_160)) throw 'Empty value';
+				QI.Error.isEmptyValue('get authCode', this._authCode_160);
 
 				return this._authCode_160;
 			}

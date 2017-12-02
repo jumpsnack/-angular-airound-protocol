@@ -33,6 +33,14 @@ declare global {
 	}
 }
 
+interface Function {
+	name: string;
+}
+
+interface Set{
+	name: string;
+}
+
 String.prototype.hexBitsLength = function (this: string){
 	return (this.length*8).toString(16);
 };
@@ -51,9 +59,23 @@ export namespace QI {
 	export type AiroundString = string;
 
 	export namespace Error {
-		export function isUndefined (obj: any) {
+		export function isInvalidInput (name: string, obj: any) {
+			if(obj instanceof String && !obj) {
+				throw '[QI.Error.isInvalidInput]: '+name+'=> Invalid input';
+			}
+		}
+
+		export function isEmptyValue (name: string, obj: any){
 			if(!obj) {
-				throw '[QI.Error.isUndefined]: '+ isUndefined.caller + ' => undefined';
+				throw '[QI.Error.isEmptyValue]: '+name+'=> Empty value';
+			}
+		}
+
+		export function isWithinRange (name: string, obj: any, maxBits: number){
+			if( obj instanceof String){
+				if(obj.length*8 >= 2**maxBits) throw '[QI.Error.isWithinRange]: '+name+' '+obj.length*8+' => Out of range (<'+2**maxBits+')'
+			} else if (obj instanceof Number){
+				if(obj >= 2**maxBits) throw '[QI.Error.isWithinRange]: '+name+' '+obj+' => Out of range (<'+2**maxBits+')'
 			}
 		}
 	}
