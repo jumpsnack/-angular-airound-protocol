@@ -56,7 +56,7 @@ export var QI;
                     throw '[QI.Error.isWithinRange]: ' + name + ' ' + obj.length * 8 + ' => Out of range (<' + maxBits + ')';
             }
             else if (typeof obj === 'number') {
-                if (obj <= 0 || obj >= Math.pow(2, maxBits))
+                if (obj < 0 || obj >= Math.pow(2, maxBits))
                     throw '[QI.Error.isWithinRange]: ' + name + ' ' + obj + ' => Out of range (<' + Math.pow(2, maxBits) + ')';
             }
         }
