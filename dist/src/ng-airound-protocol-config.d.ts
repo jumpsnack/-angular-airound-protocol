@@ -33,7 +33,7 @@ declare global  {
 export declare namespace QI {
     type AiroundString = string;
     namespace Error {
-        let isUndefined: (obj: any) => void;
+        function isUndefined(obj: any): void;
     }
 }
 export {};

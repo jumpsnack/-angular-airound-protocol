@@ -38,11 +38,12 @@ export var QI;
 (function (QI) {
     var Error;
     (function (Error) {
-        Error.isUndefined = function (obj) {
+        function isUndefined(obj) {
             if (!obj) {
-                throw '[QI.Error.isUndefined]: ' + Error.isUndefined.caller + ' => undefined';
+                throw '[QI.Error.isUndefined]: ' + isUndefined.caller + ' => undefined';
             }
-        };
+        }
+        Error.isUndefined = isUndefined;
     })(Error = QI.Error || (QI.Error = {}));
 })(QI || (QI = {}));
 //# sourceMappingURL=ng-airound-protocol-config.js.map

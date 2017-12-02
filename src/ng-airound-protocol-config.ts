@@ -51,7 +51,7 @@ export namespace QI {
 	export type AiroundString = string;
 
 	export namespace Error {
-		export let isUndefined = (obj: any) => {
+		export function isUndefined (obj: any) {
 			if(!obj) {
 				throw '[QI.Error.isUndefined]: '+ isUndefined.caller + ' => undefined';
 			}
