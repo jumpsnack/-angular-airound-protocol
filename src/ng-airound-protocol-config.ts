@@ -53,8 +53,15 @@ export namespace QI {
 	export namespace Error {
 		export let isUndefined = (obj: any) => {
 			if(!obj) {
-				throw '[QI.Error.isUndefined]: '+ obj._name + ' => undefined';
+				throw '[QI.Error.isUndefined]: '+ getVariableName(obj) + ' => undefined';
 			}
 		}
+	}
+
+	var varExtractor = new RegExp("return (.*);");
+	export function getVariableName<TResult>(name: () => TResult) {
+		var m = varExtractor.exec(name + "");
+		if (m == null) throw "The function does not contain a statement matching 'return variableName;'";
+		return m[1];
 	}
 }

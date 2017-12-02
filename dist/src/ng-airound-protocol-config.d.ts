@@ -35,5 +35,6 @@ export declare namespace QI {
     namespace Error {
         let isUndefined: (obj: any) => void;
     }
+    function getVariableName<TResult>(name: () => TResult): string;
 }
 export {};
