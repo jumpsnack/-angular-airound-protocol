@@ -1,3 +1,4 @@
+
 export const PROTO_TYPES = {
 	SGU: 0x65,
 	UVC: 0x67,
@@ -24,4 +25,37 @@ export const PROTO_TYPES = {
 
 export let CONFIG = {
 	eid: -1
+}
+
+declare global {
+	interface String {
+		hexBitsLength(): string;
+		toHex(): string;
+	}
+}
+
+String.prototype.hexBitsLength = function (this: string){
+	return (this.length*8).toString(16);
+};
+
+String.prototype.toHex = function (this: string){
+	let result = '';
+	for(let i=0; i<this.length; i++){
+		result += this.charCodeAt(i).toString(16);
+	}
+
+	return result;
+};
+
+export namespace QI {
+
+	export type AiroundString = string;
+
+	export namespace Error {
+		export let isUndefined = (obj: any) => {
+			if(obj.isUndefined()) {
+				throw '[QI.Error.isUndefined]: '+ obj._name + ' => undefined';
+			}
+		}
+	}
 }

@@ -1,16 +1,6 @@
 import { Injectable } from '@angular/core';
 import { isUndefined } from "util";
-import { PROTO_TYPES, CONFIG } from "./ng-airound-protocol-config";
-String.prototype.hexBitsLength = function () {
-    return (this.length * 8).toString(16);
-};
-String.prototype.toHex = function () {
-    var result = '';
-    for (var i = 0; i < this.length; i++) {
-        result += this.charCodeAt(i).toString(16);
-    }
-    return result;
-};
+import { PROTO_TYPES, CONFIG, QI } from "./ng-airound-protocol-config";
 var AiroundProtocolBuilder = (function () {
     function AiroundProtocolBuilder() {
     }
@@ -24,10 +14,8 @@ var AiroundProtocolBuilder = (function () {
         enumerable: true,
         configurable: true
     });
-    // public SGU(user: {birthdate_32: string, gender_8: string, email_tlv: string, password_tlv: string, firstname_tlv: string, lastname_tlv: string}): string {
-    // 	return new PROTO_FACTORY.PROTO_SGU(user.birthdate_32, user.gender_8, user.email_tlv, user.password_tlv, user.firstname_tlv, user.lastname_tlv).generate()
-    // }
-    AiroundProtocolBuilder.prototype.SGU = function (params) {
+    AiroundProtocolBuilder.prototype.SGU = function (eid, params) {
+        this.CONFIG_EID = eid;
         return new PROTO_FACTORY.PROTO_SGU(params).generate();
     };
     AiroundProtocolBuilder.prototype.UVC = function (params) {
@@ -261,8 +249,8 @@ var PROTO_FACTORY;
                     return this._authCode_160;
                 },
                 set: function (authCode) {
-                    if (isUndefined(authCode))
-                        throw 'Invalid input';
+                    //if(isUndefined(authCode)) throw 'Invalid input';
+                    QI.Error.isUndefined(authCode);
                     if (authCode.length * 8 >= Math.pow(2, this.MAX_SIZE_AUTH_CODE))
                         throw '[authCode]: ' + authCode.length * 8 + ' => Out of range (<' + Math.pow(2, this.MAX_SIZE_AUTH_CODE) + ')';
                     this._authCode_160 = authCode;

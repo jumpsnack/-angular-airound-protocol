@@ -24,3 +24,16 @@ export declare const PROTO_TYPES: {
 export declare let CONFIG: {
     eid: number;
 };
+declare global  {
+    interface String {
+        hexBitsLength(): string;
+        toHex(): string;
+    }
+}
+export declare namespace QI {
+    type AiroundString = string;
+    namespace Error {
+        let isUndefined: (obj: any) => void;
+    }
+}
+export {};

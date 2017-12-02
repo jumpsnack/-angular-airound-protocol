@@ -1,26 +1,6 @@
 import {Inject, Injectable} from '@angular/core';
 import { isUndefined } from "util";
-import { PROTO_TYPES, CONFIG } from "./ng-airound-protocol-config";
-
-declare global {
-	interface String {
-		hexBitsLength(): string;
-		toHex(): string;
-	}
-}
-
-String.prototype.hexBitsLength = function (this: string){
-	return (this.length*8).toString(16);
-};
-
-String.prototype.toHex = function (this: string){
-	let result = '';
-	for(let i=0; i<this.length; i++){
-		result += this.charCodeAt(i).toString(16);
-	}
-
-	return result;
-};
+import { PROTO_TYPES, CONFIG, QI } from "./ng-airound-protocol-config";
 
 @Injectable()
 export class AiroundProtocolBuilder {
@@ -32,11 +12,8 @@ export class AiroundProtocolBuilder {
 		return CONFIG.eid;
 	}
 
-	// public SGU(user: {birthdate_32: string, gender_8: string, email_tlv: string, password_tlv: string, firstname_tlv: string, lastname_tlv: string}): string {
-	// 	return new PROTO_FACTORY.PROTO_SGU(user.birthdate_32, user.gender_8, user.email_tlv, user.password_tlv, user.firstname_tlv, user.lastname_tlv).generate()
-	// }
-
-	public SGU(params: PROTO_PARAMS.SGU){
+	public SGU(eid: number, params: PROTO_PARAMS.SGU){
+		this.CONFIG_EID = eid;
 		return new PROTO_FACTORY.PROTO_SGU(params).generate();
 	}
 
@@ -185,50 +162,50 @@ namespace PROTO_FACTORY {
 					'"birthdate": ' + '"'+this.birthdate +'"'+
 					', "gender": ' + '"' + this.gender + '"' +
 					', "tlv": ' + '"'+(this.tlv.value) +'"'
-					+ '}'
+					+ '}';
 			}
 		}
 
 		export class SGU_TLV {
 			private readonly _id_type: string = '01';
-			private _id: string;
+			private _id: QI.AiroundString;
 			private _id_length: string;
 
 			private readonly _password_type: string = '02';
-			private _password: string;
+			private _password: QI.AiroundString;
 			private _password_length: string;
 
 			private readonly _firstname_type: string = '03';
-			private _firstname: string;
+			private _firstname: QI.AiroundString;
 			private _firstname_length: string;
 
 			private readonly _lastname_type: string = '04';
-			private _lastname: string;
+			private _lastname: QI.AiroundString;
 			private _lastname_length: string;
 
-			constructor (id: string, password: string, firstname: string, lastname: string) {
+			constructor (id: QI.AiroundString, password: QI.AiroundString, firstname: QI.AiroundString, lastname: QI.AiroundString) {
 				this.id = id;
 				this.password = password;
 				this.firstname = firstname;
 				this.lastname = lastname;
 			}
 
-			set id (id: string) {
+			set id (id: QI.AiroundString) {
 				this._id_length = id.hexBitsLength();
 				this._id = id.toHex();
 			}
 
-			set password (password: string) {
+			set password (password: QI.AiroundString) {
 				this._password_length = password.hexBitsLength();
 				this._password = password.toHex();
 			}
 
-			set firstname (firstname: string) {
+			set firstname (firstname: QI.AiroundString) {
 				this._firstname_length = firstname.hexBitsLength();
 				this._firstname = firstname.toHex();
 			}
 
-			set lastname (lastname: string) {
+			set lastname (lastname: QI.AiroundString) {
 				this._lastname_length = lastname.hexBitsLength();
 				this._lastname = lastname.toHex();
 			}
@@ -284,7 +261,8 @@ namespace PROTO_FACTORY {
 			}
 
 			set authCode (authCode: string){
-				if(isUndefined(authCode)) throw 'Invalid input';
+				//if(isUndefined(authCode)) throw 'Invalid input';
+				QI.Error.isUndefined(authCode);
 
 				if(authCode.length*8 >= 2**this.MAX_SIZE_AUTH_CODE) throw '[authCode]: '+authCode.length*8+' => Out of range (<'+2**this.MAX_SIZE_AUTH_CODE+')'
 

@@ -24,4 +24,25 @@ export var PROTO_TYPES = {
 export var CONFIG = {
     eid: -1
 };
+String.prototype.hexBitsLength = function () {
+    return (this.length * 8).toString(16);
+};
+String.prototype.toHex = function () {
+    var result = '';
+    for (var i = 0; i < this.length; i++) {
+        result += this.charCodeAt(i).toString(16);
+    }
+    return result;
+};
+export var QI;
+(function (QI) {
+    var Error;
+    (function (Error) {
+        Error.isUndefined = function (obj) {
+            if (obj.isUndefined()) {
+                throw '[QI.Error.isUndefined]: ' + obj._name + ' => undefined';
+            }
+        };
+    })(Error = QI.Error || (QI.Error = {}));
+})(QI || (QI = {}));
 //# sourceMappingURL=ng-airound-protocol-config.js.map

@@ -1,12 +1,6 @@
-declare global  {
-    interface String {
-        hexBitsLength(): string;
-        toHex(): string;
-    }
-}
 export declare class AiroundProtocolBuilder {
     CONFIG_EID: number;
-    SGU(params: PROTO_PARAMS.SGU): string;
+    SGU(eid: number, params: PROTO_PARAMS.SGU): string;
     UVC(params: PROTO_PARAMS.UVC): string;
 }
 export declare namespace PROTO_PARAMS {
@@ -29,4 +23,3 @@ export declare namespace PROTO_PARAMS {
         _authCode_160: string;
     }
 }
-export {};
