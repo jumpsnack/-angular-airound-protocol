@@ -1,4 +1,3 @@
-
 export const PROTO_TYPES = {
 	SGU: 0x65,
 	UVC: 0x67,
@@ -53,7 +52,7 @@ export namespace QI {
 
 	export namespace Error {
 		export let isUndefined = (obj: any) => {
-			if(obj.isUndefined()) {
+			if(obj === undefined) {
 				throw '[QI.Error.isUndefined]: '+ obj._name + ' => undefined';
 			}
 		}

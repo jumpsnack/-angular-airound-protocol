@@ -39,7 +39,7 @@ export var QI;
     var Error;
     (function (Error) {
         Error.isUndefined = function (obj) {
-            if (obj.isUndefined()) {
+            if (obj === undefined) {
                 throw '[QI.Error.isUndefined]: ' + obj._name + ' => undefined';
             }
         };
