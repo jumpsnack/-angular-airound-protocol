@@ -40,17 +40,9 @@ export var QI;
     (function (Error) {
         Error.isUndefined = function (obj) {
             if (!obj) {
-                throw '[QI.Error.isUndefined]: ' + getVariableName(function () { return obj; }) + ' => undefined';
+                throw '[QI.Error.isUndefined]: ' + Error.isUndefined.caller + ' => undefined';
             }
         };
     })(Error = QI.Error || (QI.Error = {}));
-    var varExtractor = new RegExp("return (.*);");
-    function getVariableName(name) {
-        var m = varExtractor.exec(name + "");
-        if (m == null)
-            throw "The function does not contain a statement matching 'return variableName;'";
-        return m[1];
-    }
-    QI.getVariableName = getVariableName;
 })(QI || (QI = {}));
 //# sourceMappingURL=ng-airound-protocol-config.js.map
