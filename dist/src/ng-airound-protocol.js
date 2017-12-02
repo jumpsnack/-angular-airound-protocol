@@ -221,7 +221,7 @@ var PROTO_FACTORY;
                         throw 'Invalid input';
                     // if(nrofTriesDiffCodeTrans >= 2**this.MAX_SIZE_NR_OF_TRIES_DIFF_CODE_TRANS) throw '[nrofTriesDiffCodeTrans]: '+nrofTriesDiffCodeTrans+' => Out of range (<'+2**this.MAX_SIZE_NR_OF_TRIES_DIFF_CODE_TRANS+')'
                     QI.Error.isWithinRange('set nrofTriesDiffCodeTrans', nrofTriesDiffCodeTrans, this.MAX_SIZE_NR_OF_TRIES_DIFF_CODE_TRANS);
-                    this._nrofTriesDiffCodeTrans_8 = parseInt(nrofTriesDiffCodeTrans.toString(16));
+                    this._nrofTriesDiffCodeTrans_8 = parseInt('0x' + nrofTriesDiffCodeTrans.toString(16));
                 },
                 enumerable: true,
                 configurable: true

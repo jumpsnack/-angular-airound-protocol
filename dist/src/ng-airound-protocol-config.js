@@ -52,8 +52,8 @@ export var QI;
         Error.isEmptyValue = isEmptyValue;
         function isWithinRange(name, obj, maxBits) {
             if (typeof obj === 'string') {
-                if (obj.length * 8 >= maxBits)
-                    throw '[QI.Error.isWithinRange]: ' + name + ' ' + obj.length * 8 + ' => Out of range (<' + Math.pow(2, maxBits) + ')';
+                if (obj.length * 8 > maxBits)
+                    throw '[QI.Error.isWithinRange]: ' + name + ' ' + obj.length * 8 + ' => Out of range (<' + maxBits + ')';
             }
             else if (typeof obj === 'number') {
                 if (obj >= Math.pow(2, maxBits))
