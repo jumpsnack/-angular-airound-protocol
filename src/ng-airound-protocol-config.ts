@@ -72,9 +72,9 @@ export namespace QI {
 		}
 
 		export function isWithinRange (name: string, obj: any, maxBits: number){
-			if( obj instanceof String){
+			if( typeof obj === 'string'){
 				if(obj.length*8 >= 2**maxBits) throw '[QI.Error.isWithinRange]: '+name+' '+obj.length*8+' => Out of range (<'+2**maxBits+')'
-			} else if (obj instanceof Number){
+			} else if (typeof obj === 'number'){
 				if(obj >= 2**maxBits) throw '[QI.Error.isWithinRange]: '+name+' '+obj+' => Out of range (<'+2**maxBits+')'
 			}
 		}
